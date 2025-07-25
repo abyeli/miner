@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ ÉDUCATIF - Démonstration Drainer (TESTNET)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #ff0000, #ff4500, #ff6600);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .warning-banner {
+            background: #ff0000;
+            border: 3px solid #ffff00;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.7; }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #ff6600;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 102, 0, 0.1);
+            border: 2px solid #ff6600;
+            border-radius: 8px;
+        }
+
+        .code-block {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .demo-button {
+            background: linear-gradient(45deg, #ff0000, #ff6600);
+            color: white;
+            border: 3px solid #ffff00;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 15px 10px;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s;
+        }
+
+        .demo-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #ff6600;
+        }
+
+        .demo-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-panel {
+            background: #000;
+            border: 2px solid #00ff00;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            min-height: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+        }
+
+        .log-info { color: #00ff00; }
+        .log-warning { color: #ffff00; }
+        .log-error { color: #ff0000; }
+        .log-success { color: #00ffff; }
+
+        .wallet-info {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid #00ffff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .balance-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .balance-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #666;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .educational-note {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .attack-simulation {
+            background: rgba(255, 0, 0, 0.2);
+            border: 3px solid #ff0000;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="warning-banner">
+        ⚠️⚠️⚠️ CECI EST UNE DÉMONSTRATION ÉDUCATIVE - TESTNET UNIQUEMENT ⚠️⚠️⚠️<br>
+        NE JAMAIS UTILISER SUR MAINNET - FONDS RÉELS EN DANGER !
+    </div>
+
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 30px; color: #ff6600;">
+            🎓 DÉMONSTRATION ÉDUCATIVE : DRAINER SOLANA
+        </h1>
+
+        <!-- Section 1: Avertissements -->
+        <div class="section">
+            <h2>⚠️ AVERTISSEMENTS IMPORTANTS</h2>
+            <div class="educational-note">
+                <strong>🎯 OBJECTIFS ÉDUCATIFS :</strong><br>
+                • Comprendre comment fonctionnent les attaques de drainers<br>
+                • Apprendre à identifier les signaux d'alarme<br>
+                • Tester les mécanismes de protection des wallets<br>
+                • Sensibiliser à la sécurité blockchain<br><br>
+                
+                <strong>🚫 À NE JAMAIS FAIRE :</strong><br>
+                • Utiliser ce code sur mainnet<br>
+                • Attaquer de vrais utilisateurs<br>
+                • Déployer sans autorisation<br>
+                • Voler de vrais fonds
+            </div>
+        </div>
+
+        <!-- Section 2: Configuration -->
+        <div class="section">
+            <h2>🔧 CONFIGURATION TESTNET</h2>
+            <div class="wallet-info" id="walletStatus">
+                <p><strong>Statut :</strong> <span id="connectionStatus">Non connecté</span></p>
+                <p><strong>Réseau :</strong> <span id="networkStatus">Inconnu</span></p>
+                <p><strong>Adresse :</strong> <span id="walletAddress">-</span></p>
+            </div>
+            
+            <button class="demo-button" id="connectWallet">🔗 CONNECTER WALLET (TESTNET)</button>
+            <button class="demo-button" id="checkBalances" disabled>💰 VÉRIFIER SOLDES</button>
+            <button class="demo-button" id="requestAirdrop" disabled>🪂 DEMANDER AIRDROP TEST</button>
+        </div>
+
+        <!-- Section 3: Balances -->
+        <div class="section">
+            <h2>💰 SOLDES TESTNET</h2>
+            <div class="balance-display">
+                <div class="balance-item">
+                    <h3>SOL</h3>
+                    <p id="solBalance">0.00</p>
+                </div>
+                <div class="balance-item">
+                    <h3>Test USDC</h3>
+                    <p id="usdcBalance">0.00</p>
+                </div>
+                <div class="balance-item">
+                    <h3>Test USDT</h3>
+                    <p id="usdtBalance">0.00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Analyse de Code -->
+        <div class="section">
+            <h2>🔍 ANALYSE DU CODE MALVEILLANT</h2>
+            <p>Voici les parties critiques du drainer que tu as trouvé :</p>
+            
+            <div class="code-block">
+<pre><span style="color: #ff6666;">// FONCTION DE DRAINAGE SOL</span>
+<span style="color: #66ff66;">DrainSOL</span> { amount: u64 } => {
+    <span style="color: #ffff66;">// Vérifie que la victime a signé</span>
+    if !source_account.is_signer {
+        return Err(...);
+    }
+    
+    <span style="color: #ff6666;">// VOLE TOUS LES SOL !</span>
+    invoke(
+        &system_instruction::<span style="color: #ff6666;">transfer</span>(
+            source_account.key,      <span style="color: #ffff66;">// Wallet victime</span>
+            destination_account.key, <span style="color: #ffff66;">// Wallet attaquant</span>
+            amount                   <span style="color: #ffff66;">// TOUT le solde !</span>
+        ),
+        &[source_account.clone(), destination_account.clone()],
+    )?;
+}</pre>
+            </div>
+
+            <div class="educational-note">
+                <strong>🎯 POINTS CRITIQUES :</strong><br>
+                • <code>is_signer</code> : Vérifie que la victime a bien signé<br>
+                • <code>system_instruction::transfer</code> : Fonction native de transfert SOL<br>
+                • <code>amount</code> : Montant à voler (souvent = solde total)<br>
+                • <code>invoke</code> : Execute le transfert de force
+            </div>
+        </div>
+
+        <!-- Section 5: Simulation d'Attaque -->
+        <div class="section attack-simulation">
+            <h2>🚨 SIMULATION D'ATTAQUE (ÉDUCATIF)</h2>
+            <p><strong>ATTENTION :</strong> Cette simulation montre comment un drainer fonctionne !</p>
+            
+            <div class="educational-note">
+                <strong>🎭 SCÉNARIO :</strong> "Site d'airdrop gratuit"<br>
+                🎣 L'utilisateur pense : "Je vais recevoir des tokens gratuits"<br>
+                💀 En réalité : Transaction pour vider son wallet
+            </div>
+
+            <button class="demo-button" id="simulateDrainer" disabled style="background: #ff0000;">
+                💀 SIMULER DRAINER (TESTNET UNIQUEMENT)
+            </button>
+            
+            <div class="code-block">
+<pre id="maliciousTransaction" class="hidden"><span style="color: #ff6666;">// TRANSACTION MALVEILLANTE GÉNÉRÉE</span>
+Transaction {
+    instructions: [
+        <span style="color: #ff6666;">DrainSOL</span> {
+            source: "<span id="victimAddress"></span>",
+            destination: "<span id="attackerAddress">AttackerWallet123...</span>",
+            amount: <span id="stealAmount">ALL_BALANCE</span>
+        },
+        <span style="color: #ff6666;">DrainSPLToken</span> {
+            token: "USDC",
+            amount: <span id="stealAmountUSDC">ALL_BALANCE</span>
+        }
+    ]
+}</pre>
+            </div>
+        </div>
+
+        <!-- Section 6: Logs -->
+        <div class="section">
+            <h2>📊 LOGS DE DÉMONSTRATION</h2>
+            <div class="status-panel" id="logPanel">
+                <div class="log-info">🎓 Démonstration éducative initialisée...</div>
+                <div class="log-warning">⚠️ Connectez un wallet testnet pour commencer</div>
+            </div>
+        </div>
+
+        <!-- Section 7: Protection -->
+        <div class="section">
+            <h2>🛡️ COMMENT SE PROTÉGER</h2>
+            <div class="educational-note">
+                <strong>✅ SIGNAUX D'ALARME À DÉTECTER :</strong><br>
+                • Transaction demande TOUS vos fonds<br>
+                • Site avec URL suspecte<br>
+                • Promesses trop belles pour être vraies<br>
+                • Urgence artificielle ("Offre limitée !")<br>
+                • Pas de vérification du contrat<br><br>
+
+                <strong>🛡️ PROTECTIONS :</strong><br>
+                • Toujours vérifier l'URL<br>
+                • Lire la transaction avant signature<br>
+                • Utiliser des wallets avec alertes<br>
+                • Tester avec petits montants<br>
+                • Vérifier la réputation du projet
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let connection;
+        let wallet;
+        let isConnected = false;
+
+        // Configuration Testnet
+        const TESTNET_URL = 'https://api.testnet.solana.com';
+        const ATTACKER_WALLET = "AttackerEducational1234567890123456789012"; // Fake pour démo
+
+        // Elements DOM
+        const connectBtn = document.getElementById('connectWallet');
+        const checkBalancesBtn = document.getElementById('checkBalances');
+        const requestAirdropBtn = document.getElementById('requestAirdrop');
+        const simulateDrainerBtn = document.getElementById('simulateDrainer');
+        const logPanel = document.getElementById('logPanel');
+
+        // Fonction de logging
+        function addLog(message, type = 'info') {
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logPanel.appendChild(logEntry);
+            logPanel.scrollTop = logPanel.scrollHeight;
+        }
+
+        // Détection du wallet
+        connectBtn.addEventListener('click', async () => {
+            try {
+                addLog('🔍 Recherche de wallet Solana...', 'info');
+                
+                if (window.solana && window.solana.isPhantom) {
+                    addLog('👻 Phantom wallet détecté', 'success');
+                    
+                    const response = await window.solana.connect();
+                    wallet = response.publicKey.toString();
+                    
+                    addLog(`✅ Connecté: ${wallet.substring(0, 8)}...${wallet.substring(-8)}`, 'success');
+                    
+                    // Vérifier le réseau
+                    if (await checkNetwork()) {
+                        isConnected = true;
+                        updateUI();
+                        addLog('🎓 Prêt pour la démonstration éducative', 'success');
+                    }
+                    
+                } else {
+                    addLog('❌ Phantom wallet non détecté', 'error');
+                    addLog('📥 Installez Phantom: phantom.app', 'warning');
+                }
+                
+            } catch (error) {
+                addLog(`❌ Erreur de connexion: ${error.message}`, 'error');
+            }
+        });
+
+        // Vérifier le réseau
+        async function checkNetwork() {
+            try {
+                // Simuler la vérification du réseau
+                addLog('🌐 Vérification du réseau...', 'info');
+                
+                // Dans un vrai cas, on vérifierait la RPC
+                document.getElementById('networkStatus').textContent = 'Testnet (Simulé)';
+                document.getElementById('connectionStatus').textContent = 'Connecté';
+                document.getElementById('walletAddress').textContent = wallet;
+                
+                addLog('✅ Réseau Testnet confirmé', 'success');
+                return true;
+            } catch (error) {
+                addLog('❌ Erreur réseau - Vérifiez que vous êtes sur Testnet', 'error');
+                return false;
+            }
+        }
+
+        // Mettre à jour l'interface
+        function updateUI() {
+            connectBtn.disabled = true;
+            connectBtn.textContent = '✅ CONNECTÉ';
+            checkBalancesBtn.disabled = false;
+            requestAirdropBtn.disabled = false;
+            simulateDrainerBtn.disabled = false;
+        }
+
+        // Vérifier les soldes
+        checkBalancesBtn.addEventListener('click', async () => {
+            addLog('💰 Vérification des soldes testnet...', 'info');
+            
+            // Simuler la récupération des soldes
+            setTimeout(() => {
+                const solBalance = (Math.random() * 5).toFixed(2);
+                const usdcBalance = (Math.random() * 1000).toFixed(2);
+                const usdtBalance = (Math.random() * 500).toFixed(2);
+                
+                document.getElementById('solBalance').textContent = `${solBalance} SOL`;
+                document.getElementById('usdcBalance').textContent = `${usdcBalance} USDC`;
+                document.getElementById('usdtBalance').textContent = `${usdtBalance} USDT`;
+                
+                addLog(`💰 Soldes récupérés: ${solBalance} SOL, ${usdcBalance} USDC, ${usdtBalance} USDT`, 'success');
+            }, 2000);
+        });
+
+        // Demander un airdrop
+        requestAirdropBtn.addEventListener('click', async () => {
+            addLog('🪂 Demande d\'airdrop testnet...', 'info');
+            addLog('⏳ Attente confirmation...', 'warning');
+            
+            setTimeout(() => {
+                addLog('✅ Airdrop reçu: +2 SOL testnet', 'success');
+                addLog('🎓 Prêt pour les tests éducatifs', 'info');
+            }, 3000);
+        });
+
+        // Simuler le drainer (ÉDUCATIF)
+        simulateDrainerBtn.addEventListener('click', async () => {
+            addLog('🚨 DÉBUT DE SIMULATION DRAINER', 'error');
+            addLog('⚠️ CECI EST UNE DÉMONSTRATION !', 'warning');
+            
+            // Afficher la transaction malveillante
+            document.getElementById('maliciousTransaction').classList.remove('hidden');
+            document.getElementById('victimAddress').textContent = wallet;
+            document.getElementById('attackerAddress').textContent = ATTACKER_WALLET;
+            
+            addLog('💀 Transaction malveillante générée...', 'error');
+            addLog('🔍 Analysez la transaction ci-dessus !', 'warning');
+            
+            setTimeout(() => {
+                addLog('🎭 Dans un vrai scénario:', 'warning');
+                addLog('  1. Vous signeriez cette transaction', 'error');
+                addLog('  2. Tous vos fonds seraient transférés', 'error');
+                addLog('  3. Transaction irréversible !', 'error');
+                addLog('', 'info');
+                addLog('🛡️ PROTECTION: Toujours vérifier avant de signer !', 'success');
+            }, 2000);
+        });
+
+        // Message initial
+        addLog('🎓 Démonstration éducative Drainer Solana', 'info');
+        addLog('⚠️ TESTNET UNIQUEMENT - Fins éducatives', 'warning');
+        addLog('🔗 Connectez votre wallet pour commencer', 'info');
+    </script>
+</body>
+</html>
